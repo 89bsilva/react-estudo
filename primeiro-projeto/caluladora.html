@@ -69,25 +69,37 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   
   <script type="text/babel">
-    ReactDOM.render(
+    const Cabecalho = () => <div class="cabecalho">Calculadora</div>;
+    
+    const Visor = () => <div class="visor"></div>;
+
+    const Teclado = () => (
+      <div class="teclado">
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>0</button>
+      </div>
+    );
+
+    const App = () => (
       <div>
-        <div class="cabecalho">Calculadora</div>
+        <Cabecalho />
         <div class="calculadora">
-          <div class="visor"></div>
-          <div class="teclado">
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>0</button>
-          </div>
+          <Visor />
+          <Teclado />
         </div>
-      </div>,
+      </div>
+    );
+
+    ReactDOM.render(
+      <App />,
       document.getElementById('app')
     );
   </script>
