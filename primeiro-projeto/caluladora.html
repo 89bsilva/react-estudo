@@ -60,6 +60,13 @@
       padding: 8px;
       cursor: pointer;
     }
+    button.duas-colunas {
+      grid-column: span 2;
+    }
+    button.destaque {
+      background-color: #ffeec2;
+      color: #c49023;
+    }
   </style>
 </head>
 <body>
@@ -86,11 +93,18 @@
               <button
                 key={botao}
                 onClick={() => atualizarVisor(botao)}
+                className={botao === 0 && 'duas-colunas'}
               >
                 {botao}
               </button>
             ))
           }
+          <button
+            onClick={() => atualizarVisor('.')}
+            className="destaque"
+          >
+            ,
+          </button>
         </div>
       );
     }
