@@ -64,8 +64,8 @@
 </head>
 <body>
   <div id="app"></div>
-  <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   
   <script type="text/babel">
@@ -77,67 +77,31 @@
       </div>
     );
 
-    const Teclado = ({mudarVisor}) => (
+    const Teclado = ({botoes, atualizarVisor}) => (
       <div class="teclado">
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '7')}
-        >
-          7
-        </button>
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '8')}
-        >
-          8
-        </button>
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '9')}
-        >
-          9
-        </button>
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '4')}
-        >
-          4
-        </button>
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '5')}
-        >
-          5
-        </button>
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '6')}
-        >
-          6
-        </button>
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '1')}
-        >
-          1
-        </button>
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '2')}
-        >
-          2
-        </button>
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '3')}
-        >
-          3
-        </button>
-        <button
-          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '0')}
-        >
-          0
-        </button>
+        {
+          botoes.map(botao => (
+            <button
+              key={botao}
+              onClick={() => atualizarVisor(botao)}
+            >
+              {botao}
+            </button>
+          ))
+        }
       </div>
     );
 
     const Calculadora = () => {
-      const [visor, mudarVisor] = React.useState('');
+      const [visor, alterarVisor] = React.useState('');
+      const listaDeBotoes = ['7','8','9','4','5','6','1','2','3','0'];
       return (
         <div class="calculadora">
           <Visor visor={visor}/>
-          <Teclado mudarVisor={mudarVisor}/>
+          <Teclado 
+            botoes={listaDeBotoes} 
+            atualizarVisor={valor => alterarVisor(`${visor}${valor}`)}
+          />
         </div>
       );
     }
