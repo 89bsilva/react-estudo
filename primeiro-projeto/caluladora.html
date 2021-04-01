@@ -69,37 +69,38 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   
   <script type="text/babel">
-    const Cabecalho = () => <div class="cabecalho">Calculadora</div>;
+    const Cabecalho = () => <div className="cabecalho">Calculadora</div>;
     
     const Visor = ({visor}) => (
-      <div class="visor">
+      <div className="visor">
         {visor}
       </div>
     );
 
-    const Teclado = ({botoes, atualizarVisor}) => (
-      <div class="teclado">
-        {
-          botoes.map(botao => (
-            <button
-              key={botao}
-              onClick={() => atualizarVisor(botao)}
-            >
-              {botao}
-            </button>
-          ))
-        }
-      </div>
-    );
+    const Teclado = ({atualizarVisor}) => {
+      const botoes = [7,8,9,4,5,6,1,2,3,0];
+      return (
+        <div className="teclado">
+          {
+            botoes.map(botao => (
+              <button
+                key={botao}
+                onClick={() => atualizarVisor(botao)}
+              >
+                {botao}
+              </button>
+            ))
+          }
+        </div>
+      );
+    }
 
     const Calculadora = () => {
       const [visor, alterarVisor] = React.useState('');
-      const listaDeBotoes = ['7','8','9','4','5','6','1','2','3','0'];
       return (
-        <div class="calculadora">
+        <div className="calculadora">
           <Visor visor={visor}/>
           <Teclado 
-            botoes={listaDeBotoes} 
             atualizarVisor={valor => alterarVisor(`${visor}${valor}`)}
           />
         </div>
