@@ -71,31 +71,82 @@
   <script type="text/babel">
     const Cabecalho = () => <div class="cabecalho">Calculadora</div>;
     
-    const Visor = () => <div class="visor"></div>;
-
-    const Teclado = () => (
-      <div class="teclado">
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>0</button>
+    const Visor = ({visor}) => (
+      <div class="visor">
+        {visor}
       </div>
     );
 
-    const App = () => (
-      <div>
-        <Cabecalho />
-        <div class="calculadora">
-          <Visor />
-          <Teclado />
-        </div>
+    const Teclado = ({mudarVisor}) => (
+      <div class="teclado">
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '7')}
+        >
+          7
+        </button>
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '8')}
+        >
+          8
+        </button>
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '9')}
+        >
+          9
+        </button>
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '4')}
+        >
+          4
+        </button>
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '5')}
+        >
+          5
+        </button>
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '6')}
+        >
+          6
+        </button>
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '1')}
+        >
+          1
+        </button>
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '2')}
+        >
+          2
+        </button>
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '3')}
+        >
+          3
+        </button>
+        <button
+          onClick={() => mudarVisor((visorAnterior) => visorAnterior + '0')}
+        >
+          0
+        </button>
       </div>
+    );
+
+    const Calculadora = () => {
+      const [visor, mudarVisor] = React.useState('');
+      return (
+        <div class="calculadora">
+          <Visor visor={visor}/>
+          <Teclado mudarVisor={mudarVisor}/>
+        </div>
+      );
+    }
+
+    const App = () => (
+      <React.Fragment>
+        <Cabecalho />
+        <Calculadora />
+      </React.Fragment>
     );
 
     ReactDOM.render(
