@@ -115,11 +115,14 @@
 
     const Calculadora = () => {
       const [visor, alterarVisor] = React.useState('');
+      const atualizarVisor = valor => {
+        alterarVisor(`${visor}${valor}`)
+      };
       return (
         <div className="calculadora">
           <Visor visor={visor}/>
           <Teclado 
-            atualizarVisor={valor => alterarVisor(`${visor}${valor}`)}
+            atualizarVisor={atualizarVisor}
           />
         </div>
       );
