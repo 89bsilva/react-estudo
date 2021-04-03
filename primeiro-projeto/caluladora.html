@@ -115,7 +115,6 @@
 
     const Calculadora = () => {
       const [visor, alterarVisor] = React.useState('');
-      const [float, alterarFloat] = React.useState(false);
       const [primeiroTermo, alterarPrimeiroTermo] = React.useState('');
       const [segundoTermo, alterarSegundoTermo] = React.useState('');
       const [operador, alterarOperador] = React.useState('');
@@ -124,11 +123,12 @@
 
         switch (valor) {
           case '.':
-            if(float) {
-              return;
-            }
-
             if(operador === '') {
+            
+              if(primeiroTermo.indexOf('.') > -1) {
+                return;
+              }
+
               if(primeiroTermo === '') {
                 novoVisor = `0${valor}`;
               } else {
@@ -136,6 +136,11 @@
               }
               alterarPrimeiroTermo(novoVisor);
             } else {
+            
+              if(segundoTermo.indexOf('.') > -1) {
+                return;
+              }
+
               if(segundoTermo === '') {
                 novoVisor = `${primeiroTermo}${operador}0${valor}`;
                 alterarSegundoTermo(`${segundoTermo}0${valor}`);
@@ -146,7 +151,17 @@
             }
 
             alterarVisor(novoVisor);
-            alterarFloat(true)
+            break;
+
+          case '=':
+            if(primeiroTermo === '' || operador === '' || segundoTermo === '') {
+              return;
+            }
+            const resultado = calcular();
+            alterarPrimeiroTermo(resultado);
+            alterarSegundoTermo('');
+            alterarOperador('');
+            novoVisor = resultado;
             break;
 
           case '/':
@@ -168,7 +183,6 @@
               novoVisor = `${primeiroTermo}${operador}${segundoTermo}${valor}`;
             }
 
-            alterarFloat(false);
             alterarOperador(valor);
 
             break;
@@ -188,7 +202,8 @@
 
       const calcular = () => {
         const segundoTermo = visor.slice(visor.indexOf(operador) + 1);
-        return eval(`${primeiroTermo}${operador}${segundoTermo}`);
+        const resultado = eval(`${primeiroTermo}${operador}${segundoTermo}`);
+        return `${resultado}`;
       }
 
       return (
