@@ -115,9 +115,82 @@
 
     const Calculadora = () => {
       const [visor, alterarVisor] = React.useState('');
+      const [float, alterarFloat] = React.useState(false);
+      const [primeiroTermo, alterarPrimeiroTermo] = React.useState('');
+      const [segundoTermo, alterarSegundoTermo] = React.useState('');
+      const [operador, alterarOperador] = React.useState('');
       const atualizarVisor = valor => {
-        alterarVisor(`${visor}${valor}`)
-      };
+        let novoVisor = '';
+
+        switch (valor) {
+          case '.':
+            if(float) {
+              return;
+            }
+
+            if(operador === '') {
+              if(primeiroTermo === '') {
+                novoVisor = `0${valor}`;
+              } else {
+                novoVisor = `${primeiroTermo}${valor}`;
+              }
+              alterarPrimeiroTermo(novoVisor);
+            } else {
+              if(segundoTermo === '') {
+                novoVisor = `${primeiroTermo}${operador}0${valor}`;
+                alterarSegundoTermo(`${segundoTermo}0${valor}`);
+              } else {
+                novoVisor = `${primeiroTermo}${operador}${segundoTermo}${valor}`;
+                alterarSegundoTermo(`${segundoTermo}${valor}`);
+              }
+            }
+
+            alterarVisor(novoVisor);
+            alterarFloat(true)
+            break;
+
+          case '/':
+          case '*':
+          case '-':
+          case '+':
+
+            if(visor === '') {
+              return;
+            }
+
+            if(operador !== '') {
+              const resultado = calcular();
+              alterarPrimeiroTermo(resultado);
+              alterarSegundoTermo('');
+              novoVisor = `${resultado}${valor}`;
+            } else {
+              alterarPrimeiroTermo(visor);
+              novoVisor = `${primeiroTermo}${operador}${segundoTermo}${valor}`;
+            }
+
+            alterarFloat(false);
+            alterarOperador(valor);
+
+            break;
+        
+          default:
+            if(operador === '') {
+              novoVisor = `${primeiroTermo}${valor}`;
+              alterarPrimeiroTermo(`${primeiroTermo}${valor}`);
+            } else {
+              novoVisor = `${primeiroTermo}${operador}${segundoTermo}${valor}`;
+              alterarSegundoTermo(`${segundoTermo}${valor}`);
+            }
+            break;
+        }
+        alterarVisor(novoVisor);
+      }
+
+      const calcular = () => {
+        const segundoTermo = visor.slice(visor.indexOf(operador) + 1);
+        return eval(`${primeiroTermo}${operador}${segundoTermo}`);
+      }
+
       return (
         <div className="calculadora">
           <Visor visor={visor}/>
