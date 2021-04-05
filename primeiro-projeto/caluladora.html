@@ -86,9 +86,9 @@
 
     const Teclado = ({atualizarVisor}) => {
       const botoes = [
-        '7','8','9','/','A',
-        '4','5','6','*','(',
-        '1','2','3','-',')',
+        '7','8','9','/','C',
+        '4','5','6','*','Del',
+        '1','2','3','-','',
         '0','.','+','=',
       ];
       return (
@@ -122,6 +122,38 @@
         let novoVisor = '';
 
         switch (valor) {
+          case 'C':
+            alterarVisor('');
+            alterarPrimeiroTermo('');
+            alterarSegundoTermo('');
+            alterarOperador('');
+            break;
+          case 'Del':
+            if(operador === '') {
+            
+              if(primeiroTermo === '') {
+                return;
+              }
+
+              const novoPrimeiroTermo = primeiroTermo.substring(0, primeiroTermo.length -1);
+
+              alterarPrimeiroTermo(novoPrimeiroTermo);
+
+              novoVisor = `${novoPrimeiroTermo}`;
+            } else {
+            
+              if(segundoTermo === '') {
+                alterarOperador('');
+                novoVisor = `${primeiroTermo}`;
+              } else {
+                const novoSegundoTermo = segundoTermo.substring(0, segundoTermo.length -1);
+                
+                alterarSegundoTermo(novoSegundoTermo);
+  
+                novoVisor = `${primeiroTermo}${operador}${novoSegundoTermo}`;
+              }
+            }
+            break;
           case '.':
             if(operador === '') {
             
