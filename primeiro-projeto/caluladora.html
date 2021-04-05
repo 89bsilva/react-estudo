@@ -78,15 +78,43 @@
   <script type="text/babel">
     const Cabecalho = () => <div className="cabecalho">Calculadora</div>;
     
-    const Visor = ({visor}) => (
-      <div className="visor">
-        {visor}
-      </div>
-    );
+    const Visor = ({visor, atualizarVisor}) => {
+      const lidarComLiberacaoDeTecla = ({ key, location }) => {
+        if(key === 'Backspace' || key === 'Delete') {
+          atualizarVisor(key === 'Backspace' ? 'Back' : 'Del');
+        }
+
+      }
+      const lidarComTeclasPressionadas = ({ key, location }) => {
+        const liberados = '+-/*.=';
+
+        if(key === 'Enter') {
+          key = '=';
+        }
+
+        if(key === ',') {
+          key = '.';
+        }
+
+        if(isNaN(parseInt(key)) && liberados.indexOf(key) === -1) {
+          return;
+        }
+        atualizarVisor(key);
+      }
+      return (
+        <input
+          className="visor"
+          onKeyPress={lidarComTeclasPressionadas}
+          onKeyUp={lidarComLiberacaoDeTecla}
+          onChange={()=>false}
+          value={visor}
+        />
+      );
+    }
 
     const Teclado = ({atualizarVisor}) => {
       const botoes = [
-        '7','8','9','/','C',
+        '7','8','9','/','Back',
         '4','5','6','*','Del',
         '1','2','3','-','',
         '0','.','+','=',
@@ -122,13 +150,13 @@
         let novoVisor = '';
 
         switch (valor) {
-          case 'C':
+          case 'Del':
             alterarVisor('');
             alterarPrimeiroTermo('');
             alterarSegundoTermo('');
             alterarOperador('');
             break;
-          case 'Del':
+          case 'Back':
             if(operador === '') {
             
               if(primeiroTermo === '') {
@@ -240,7 +268,10 @@
 
       return (
         <div className="calculadora">
-          <Visor visor={visor}/>
+          <Visor 
+            visor={visor}
+            atualizarVisor={atualizarVisor}
+          />
           <Teclado 
             atualizarVisor={atualizarVisor}
           />
